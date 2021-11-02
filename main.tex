@@ -1,0 +1,68 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to use writeLaTeX: 
+%
+% You edit the source code here on the left, and the preview on the
+% right shows you the result within a few seconds.
+%
+% Bookmark this page and share the URL with your co-authors. They can
+% edit at the same time!
+%
+% You can upload figures, bibliographies, custom classes and
+% styles using the files menu.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt]{article}
+\usepackage{amsmath,amssymb}
+
+\usepackage{sbc-template}
+
+\usepackage{graphicx,url}
+
+\usepackage[brazil]{babel}   
+\usepackage[utf8]{inputenc}  
+
+     
+\sloppy
+
+\title{Título}
+
+\author{Jadiel Eudes Mendonça Barbosa \inst{1} }
+
+
+\address{Departamento de Estatística e Informática -- Universidade Federal Rural de Pernambuco\\
+  Rua Dom Manuel de Medeiros, s/n, - CEP: 52171-900  -- Recife -- PE -- Brasil
+% Se houver outra instituição envolvida
+% \nextinstitute
+%   Department of Computer Science -- University of Durham\\
+%   Durham, U.K. 
+  \email{jadiel32@hotmail.com}
+}
+
+\begin{document} 
+
+\maketitle
+
+\input{secoes/resume}
+
+\input{secoes/introducao}
+
+\input{secoes/referencial_terorico}
+
+\input{secoes/ferramentas_utilizadas}
+
+\input{secoes/abordagem_proposta}
+
+\input{secoes/conclusao}
+
+
+
+% Referências
+As referências são inseridas no arquivo  sbc-template.bib. Neste arquivo estão descritos os tipos mais comuns de referência.
+
+Para citar referência use \cite{knuth:84}, \cite{boulic:91},  and \cite{smith:99}.
+
+\bibliographystyle{sbc}
+\bibliography{sbc-template}
+
+\end{document}

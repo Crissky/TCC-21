@@ -20,4 +20,22 @@ Por sua vez, a informação é a saída do sistema e descreve \enquote{\textit{q
 
 Dessa maneira, temos os dados como matéria-prima do sistema e a informação como o produto. O nome de uma pessoa, uma data e um valor monetário são bons exemplos de dados, isolados eles não significam muito. No entanto, quando combinamos esses dados e atribuímos um significado ou contexto, como um depósito bancário, eles, os dados, passam a ter valor e se tornam informação.
 
-% TODO falar sobre Banco de dados https://integrada.minhabiblioteca.com.br/reader/books/9786556901916/pageid/18
+
+Depois do processamento dos dados, e também antes, como já foi dito, os dados que compõem/comporão a informação precisam ser armazenados de maneira organizada. Para realizar essa organização é comum usar um banco de dados relacional (Figura \ref{fig:bancoDadosRelacional}), no qual \enquote{\textit{são conjuntos de dados organizados e relacionados entre si com registros sobre fatos, pessoas, empresas, coisas ou lugares.}} \cite{rezende2015obi}. Em vista disso, os bancos de dados são essenciais para os sistemas de informação.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1\textwidth]{imagens/banco-relacional.png}
+\caption{Exemplo de descrição das tabelas de um banco de dados relacional}
+\label{fig:bancoDadosRelacional}
+\end{figure}
+
+Vale destacar que um conjunto de dados composto por dados aleatórios não pode ser qualificado como um banco de dados, pois existem algumas características que devem ser atendidas para que seja classificado como tal.
+
+\begin{itemize}
+  \item Minimundo: O banco de dados deve representar uma parte do mundo real.
+  \item Dados com significado: O banco de dados também tem que ser constituído por um conjunto lógico de dados que apresente algum significado.
+  \item Dados com objetivo: Os dados que integram o banco necessitam ter ou cumprir um objetivo claro para o usuário ou aplicação, sendo prescindível o armazenamento dos dados que não contribuem com o propósito. \cite{vida2021datawarehouse}
+\end{itemize} 
+
+% TODO continuar falando sobre Banco de dados https://integrada.minhabiblioteca.com.br/reader/books/9786556901916/pageid/19

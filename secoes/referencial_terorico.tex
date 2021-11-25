@@ -1,4 +1,4 @@
-\section{Referencial teórico}
+\section{Referencial Teórico}
 \label{sec:referencialTeorico}
 % Os principais conceitos aos quais os trabalho está relacionado. Por exemplo, apresentar os conceitos de Aprendizado de Máquina e métodos relacionados.
 % As principais técnicas e métodos nos quais o trabalho se apoia (referências)
@@ -37,7 +37,10 @@ Vale destacar que um conjunto de dados composto por dados aleatórios não pode 
   \item \textbf{Dados com objetivo}: Os dados que integram o banco necessitam ter ou cumprir um objetivo claro para o usuário ou aplicação, sendo prescindível o armazenamento dos dados que não contribuem com o propósito. \cite{vida2021datawarehouse}
 \end{itemize} 
 
-\hfill
+% \hfill
+
+\subsection{Data Warehouse}
+\label{subsec:datawarehouse}
 
 Ao longo das décadas, os computadores tiveram a sua capacidade de processamento e armazenamento aumentadas e juntamente com eles, houve um aumento da necessidade das empresas de investigar um grande volume de dados para nortear a sua tomada de decisão. Diante dessa necessidade, muitas abordagens foram criadas e \enquote{\textit{em 1988, o braço irlandês da IBM lançou o termo business data warehouse para valorizar os dados empresarias que estavam sendo armazenados. Em 1990, surgiu uma abordagem que ficou conhecida como data warehouses, sendo responsável pela cópia dos dados armazenados em arquivos e em banco de dados para outro local.}} \cite{vida2021datawarehouse}.
 
@@ -49,10 +52,33 @@ Existem quatro termos que apresentam características importantíssimas do \text
 
 Um \textit{data warehouse} orientado por assuntos contém dados importantes e concernente ao negócio, ou seja, a organização das informações estão voltadas para o \enquote{assunto}, diferente dos bancos de dados convencionais que são orientados a processos ou funções. Dessa maneira, um \textit{data warehouse} não deve armazenar dados que não são \enquote{realmente} necessários para o negócio.
 
-Todos os dados do \textit{data warehouse} estão integrados, isso quer dizer que nele não existem dados não integrados \cite{turban2009business}. Para ser consistente é necessária a padronização dos dados que entram no \textit{data warehouse}, tornando-os simples e universais. As práticas mais comuns que introduzem inconsistências no banco são \enquote{\textit{Codificação e Forma dos atributos}} \cite{vida2021datawarehouse}. A codificação ocorre quando uma informação pode ser expressada de diversas maneiras. Um exemplo disso é um dado boleando que pode ser expresso por \enquote{verdadeiro} e \enquote{falso}, \enquote{0} e \enquote{1}, \enquote{sim} e \enquote{não}, etc. Já a forma dos atributos pode introduzir inconsistência quando são utilizadas medidas diferentes como graus celsius e kelvin, metro e milha, grama e onça.
+Todos os dados do \textit{data warehouse} estão integrados, isso quer dizer que nele não existem dados não integrados, em nenhum caso \cite{turban2009business}. Para ser consistente é necessária a padronização dos dados que entram no \textit{data warehouse}, tornando-os simples e universais. As práticas mais comuns que introduzem inconsistências no banco são \enquote{\textit{Codificação e Forma dos atributos}} \cite{vida2021datawarehouse}. A codificação ocorre quando uma informação pode ser expressada de diversas maneiras. Um exemplo disso é um dado boleando que pode ser expresso por \enquote{verdadeiro} e \enquote{falso}, \enquote{0} e \enquote{1}, \enquote{sim} e \enquote{não}, etc. Já a forma dos atributos pode introduzir inconsistência quando são utilizadas medidas diferentes como graus celsius e kelvin, metro e milha, grama e onça.
 
-A variável de tempo é essencial em cada registro de um \textit{data warehouse}. Isso é indispensável para se ter um sistema histórico de dados. Esse sistema pode ser apresentado de maneira simples, como uma linha do tempo, ou mais complexa e detalhada. \enquote{\textit{Os dados em um data warehouse podem ser considerados uma longa série de snapshots}} \cite{boscarioli2016mineracao}, ou seja, uma coleção de registros de vários momento no tempo (diário, semanal, mensal ou anual, etc.), documentos que não podem ser alterados (apesar de ocorrer em momentos excepcionais, mesmo sendo incorreto).
+A variável de tempo é essencial em cada registro de um \textit{data warehouse}. Isso é indispensável para se ter um sistema histórico de dados. Esse sistema pode ser apresentado de maneira simples, como uma linha do tempo, ou mais complexa e detalhada. \enquote{\textit{Os dados em um data warehouse podem ser considerados uma longa série de snapshots}} \cite{boscarioli2016mineracao}, ou seja, semelhante a uma coleção de registros de vários momento no tempo (diário, semanal, mensal, anual, etc.) e análogo a documentos que não podem ser alterados (apesar de ocorrer em momentos excepcionais, mesmo sendo incorreto).
 
 A não volatilidade do \textit{data warehouse} diz respeito as operações feitas nele. Enquanto um banco de dados comum tem por operações ordinárias a seleção, inclusão, atualização e exclusão, o \textit{data warehouse} executa somente a carga inicial e a consulta dos dados, isto significa que o dados não são alterados ou excluídos dentro dele o que o torna, nesse aspecto, mais simples que um banco de dado comum.
 
+Existem duas abordagens quanto ao modelo de um \textit{data warehouse}, a abordagem relacional e a abordagem multidimensional. Na abordagem relacional os dados são organizados em um formato de tabela de duas dimensões (linhas e colunas). Nessa perspectiva, cada registro é uma linha da tabela, que por sua vez é dividida em colunas. Já o modelo multidimensional arranja as tabelas de um banco de dados relacional de modo a expressar os dados em várias dimensões por meio de tabelas de fatos e tabelas de dimensão usando esquemas em estrela ou em floco de neve. O esquema em estrela usa uma tabela de fato central que é ligada a várias tabelas de dimensão, nas quais cada tabela desse tipo representa uma dimensão. Enquanto isso, o esquema em floco de neve é uma extensão do esquema em estrela, pois ele possui a mesma organização em fatos e dimensões, porém, adicionando tabelas de \enquote{subdimensão} relacionadas as tabelas de dimensão. Enquanto as tabelas do esquema em estrela não são normalizadas, isto é, podem ter dados repetidos, as tabelas do esquema em floco de neve são normalizadas graças as tabelas adicionais, o que reduz a redundância.
+
+\begin{figure}[ht]
+\centering
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.5\linewidth]{imagens/example-star-schema.png}
+  \caption{Esquema estrela}
+  \label{fig:estrela}
+\end{subfigure}
+\begin{subfigure}
+  \centering
+  \includegraphics[width=.5\linewidth]{imagens/example-star-schema.png}
+  \caption{Esquema floco de neve}
+  \label{fig:flocoNeve}
+\end{subfigure}
+\caption{Esquemas multidimensionais}
+\label{fig:modeloDataWarehouse}
+\end{figure}
+
+
 % TODO começar a falar de ETL
+\subsection{ETL}
+\label{subsec:etl}

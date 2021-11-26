@@ -83,7 +83,7 @@ Existem duas abordagens quanto ao modelo de um \textit{data warehouse}, a aborda
 \label{subsec:etl}
 O \textit{data warehouse} é uma ótima maneira de armazenar grandes quantidades de dados provenientes de diversas fontes. Essa enorme massa de dados é agrupada com o objetivo de criar um ambiente preparado para efetuar análises complexas para auxiliar na tomada de decisão por meio da descoberta de informações sobre os diferentes setores do seu negócio.
 
-A fim de que um \textit{data warehouse} se mantenha atualizado para fornecer boas inspirações, é necessário que ele seja carregado de tempos em tempos, transcrevendo os dados das variadas fontes de origem para dentro dele. Esse processo de copiar os dados das fontes, transformá-los para se ajustar ao esquema do \textit{data warehouse} e carregá-los no próprio \textit{data warehouse} é conhecido por ETL (Figura \ref{fig:processoETL}), sigla em inglês para \textit{Extract, Transform and Load} ou extração, transformação e carga, em uma tradução livre.
+A fim de que um \textit{data warehouse} se mantenha atualizado para fornecer boas inspirações, é necessário que ele seja carregado de tempos em tempos, transcrevendo os dados das variadas fontes de origem para dentro dele. Esse processo de copiar os dados das fontes, transformá-los para se ajustar ao esquema do \textit{data warehouse} e carregá-los no próprio \textit{data warehouse} é conhecido por ETL (Figura \ref{fig:processoETL}), sigla em inglês para \textit{Extract, Transform and Load} ou extração, transformação e carga, em uma tradução livre. Desse modo, os dados importantes das fontes são enriquecidos para gerar informações úteis que serão depositadas no \textit{data warehouse}.
 
 \begin{figure}[ht]
 \centering
@@ -93,4 +93,4 @@ A fim de que um \textit{data warehouse} se mantenha atualizado para fornecer boa
 \label{fig:processoETL}
 \end{figure}
 
-Essa tarefa de carga do \textit{data warehouse} pode ser bastante complexa, pois os dados que são oriundos de diversas bases de dados podem seguir padrões distintos uns dos outros.
+Essa tarefa de carga do \textit{data warehouse} pode ser bastante complexa, pois os dados que são oriundos das diversas bases de dados podem seguir padrões distintos uns dos outros. Por isso, se faz necessária a extração, limpeza, transformação e integração apropriada para não prejudicar a qualidade das consultas realizadas no \textit{data warehouse}.

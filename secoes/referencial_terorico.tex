@@ -58,7 +58,7 @@ A variável de tempo é essencial em cada registro de um \textit{data warehouse}
 
 A não volatilidade do \textit{data warehouse} diz respeito as operações feitas nele. Enquanto um banco de dados comum tem por operações ordinárias a seleção, inclusão, atualização e exclusão, o \textit{data warehouse} executa somente a carga inicial e a consulta dos dados, isto significa que o dados não são alterados ou excluídos dentro dele o que o torna, nesse aspecto, mais simples que um banco de dado comum.
 
-Existem duas abordagens quanto ao modelo de um \textit{data warehouse}, a abordagem relacional e a abordagem multidimensional. Na abordagem relacional os dados são organizados em um formato de tabela de duas dimensões (linhas e colunas). Nessa perspectiva, cada registro é uma linha da tabela, que por sua vez é dividida em colunas. Já o modelo multidimensional arranja as tabelas de um banco de dados relacional de modo a expressar os dados em várias dimensões por meio de tabelas de fatos e tabelas de dimensão usando esquemas em estrela (Figura \ref{fig:esquemaEstrela}) ou em floco de neve (Figura \ref{fig:esquemaFlocoNeve}). O esquema em estrela usa uma tabela de fato central que é ligada a várias tabelas de dimensão, nas quais cada tabela desse tipo representa uma dimensão. Enquanto isso, o esquema em floco de neve é uma extensão do esquema em estrela, pois ele possui a mesma organização em fatos e dimensões, porém, adicionando tabelas de \enquote{subdimensão} relacionadas as tabelas de dimensão. Enquanto as tabelas do esquema em estrela não são normalizadas, isto é, podem ter dados repetidos, as tabelas do esquema em floco de neve são normalizadas graças as tabelas adicionais, o que reduz a redundância.
+Existem duas abordagens quanto ao modelo de um \textit{data warehouse}, a abordagem relacional e a abordagem multidimensional. Na abordagem relacional os dados são organizados em um formato de tabela de duas dimensões (linhas e colunas). Nessa perspectiva, cada registro é uma linha da tabela, que por sua vez é dividida em colunas. Já o modelo multidimensional arranja as tabelas de um banco de dados relacional de modo a expressar os dados em várias dimensões por meio de tabelas de fatos e tabelas de dimensão usando esquemas em estrela (Figura \ref{fig:esquemaEstrela}) ou em floco de neve (Figura \ref{fig:esquemaFlocoNeve}). O esquema em estrela usa uma tabela de fato central que é ligada a várias tabelas de dimensão, nas quais cada tabela desse tipo representa uma dimensão. Enquanto isso, o esquema em floco de neve é uma extensão do esquema em estrela, pois ele possui a mesma organização em fatos e dimensões, porém, adicionando tabelas de \enquote{subdimensão} relacionadas às tabelas de dimensão. Enquanto as tabelas do esquema em estrela não são normalizadas, isto é, podem ter dados repetidos, as tabelas do esquema em floco de neve são normalizadas graças as tabelas adicionais, o que reduz a redundância.
 
 % Fonte da imagem https://www.educba.com/star-schema-vs-snowflake-schema/
 \begin{figure}[ht]
@@ -83,7 +83,16 @@ Existem duas abordagens quanto ao modelo de um \textit{data warehouse}, a aborda
 \label{subsec:etl}
 O \textit{data warehouse} é uma ótima maneira de armazenar grandes quantidades de dados provenientes de diversas fontes. Essa enorme massa de dados é agrupada com o objetivo de criar um ambiente preparado para efetuar análises complexas para auxiliar na tomada de decisão por meio da descoberta de informações sobre os diferentes setores do seu negócio.
 
-A fim de que um \textit{data warehouse} se mantenha atualizado para fornecer boas inspirações, é necessário que ele seja carregado de tempos em tempos, transcrevendo os dados das variadas fontes de origem para dentro dele. Esse processo de copiar os dados das fontes, transformá-los para se ajustar ao esquema do \textit{data warehouse} e carregá-los no próprio \textit{data warehouse} é conhecido por ETL (Figura \ref{fig:processoETL}), sigla em inglês para \textit{Extract, Transform and Load} ou extração, transformação e carga, em uma tradução livre. Desse modo, os dados importantes das fontes são enriquecidos para gerar informações úteis que serão depositadas no \textit{data warehouse}.
+A fim de que um \textit{data warehouse} se mantenha atualizado para fornecer boas inspirações, é necessário que ele seja carregado de tempos em tempos (diária ou semanalmente, por exemplo, sempre observando o impacto que a carga causa aos sistemas de origem e também atentando à necessidade de atualização dos dados), transcrevendo os dados das variadas fontes de origem para dentro dele. Esse processo de copiar os dados das fontes, transformá-los para se ajustar ao esquema do \textit{data warehouse} e carregá-los no próprio \textit{data warehouse} é conhecido por ETL (Figura \ref{fig:processoETL}), sigla em inglês para \textit{Extract, Transform and Load} ou extração, transformação e carga, em uma tradução livre. Desse modo, os dados importantes das fontes são enriquecidos para gerar informações úteis que serão depositadas no \textit{data warehouse}.
+
+As principais etapas do ETL são definidas da seguinte forma:
+
+\begin{itemize}
+  \item \textbf{Extração}: Consiste no processo de ler os dados de uma fonte de dados particular e extrair dele um subconjunto de dados.
+  \item \textbf{Transformação}: Corresponde ao método de modificação/combinação dos dados extraídos previamente para adequá-los aos requisitos da nova base de dados.
+  \item \textbf{Carga}: O processo de escrever os dados transformados anteriormente no base de dados objetivo (\textit{data darehouse}). \cite{goarETL}
+\end{itemize} 
+
 
 \begin{figure}[ht]
 \centering
@@ -93,4 +102,8 @@ A fim de que um \textit{data warehouse} se mantenha atualizado para fornecer boa
 \label{fig:processoETL}
 \end{figure}
 
-Essa tarefa de carga do \textit{data warehouse} pode ser bastante complexa, pois os dados que são oriundos das diversas bases de dados podem seguir padrões distintos uns dos outros. Por isso, se faz necessária a extração, limpeza, transformação e integração apropriada para não prejudicar a qualidade das consultas realizadas no \textit{data warehouse}.
+Essa tarefa de carga do \textit{data warehouse} pode ser bastante complexa, pois os dados que são oriundos das diversas bases de dados podem seguir padrões distintos uns dos outros. Por isso, se faz necessária a extração, limpeza e formatação, transformação e integração apropriada para não prejudicar a qualidade das consultas realizadas no \textit{data warehouse}. De acordo com especialistas do setor, aproximadamente 60-80 porcento do esforço empregado em um projeto de \textit{data warehouse} é aplicado no processo de ETL \cite{goarETL}.
+
+A extração é a primeira etapa do ETL, nela os dados serão extraídos das mais diversas fontes para uma área intermediária conhecida como \textit{staging area} ou área de preparação. Essa transferência de dados é feita para reduzir a carga sobre os sistemas que detêm as fontes de dados e também do próprio \textit{data warehouse}. Nesse ponto, os dados, sejam eles estruturados ou não estruturados, são importados em uma organização estável para um único local.
+
+A partir da área de preparação

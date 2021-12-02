@@ -4,4 +4,32 @@ Discorrer sobre as ferramentas que são utilizadas para efetuar o trabalho.
 
 \subsection{Python}
 \label{subsec:python}
-O Python é uma linguagem de programação desenvolvida por...
+Python é uma linguagem de programação desenvolvida no final dos anos 80. Ela foi concebida pelo matemático holandês, Guido van Rossum, que a criou quando sentiu a necessidade de uma linguagem mais simples de se trabalhar que a C e que não tivesse as limitações do \textit{shell script}, linguagem de comando utilizada por ele \cite{de2020python}. Segundo pesquisa do Stack Overflow, um site de perguntas e respostas para programadores, Python é a terceira linguagem mais popular na plataforma \cite{stackoverflow:survey}. Ela é bastante conhecida no seu uso em automação de tarefas, desenvolvimento web e aprendizado de máquina devido à sua sintaxe sucinta e breviloquente \cite{de2020python}.
+
+Python é uma linguagem de alto nível, isto significa que, teoricamente, ela está mais próxima da linguagem natural que da linguagem de máquina. Também é uma linguagem interpretada, na qual o código fonte é convertido para o formato intermediário chamado de \textit{bytecode} e o interpretador fica responsável por converter o \textit{bytecode} para o formato próprio para ser executado no sistema operacional desejado. Python é uma linguagem de programação multiparadigma, que se encaixa em muitos paradigmas como o imperativo e funcional. A tipagem do Python é dinâmica, pois a linguagem determina o tipo de dado de uma variável baseada no valor que essa variável armazenará, não havendo necessidade de declarar o tipo explicitamente \cite{de2020python}.
+
+\subsection{Amazon Web Services}
+\label{subsec:aws}
+
+% https://aws.amazon.com/pt/
+% https://aws.amazon.com/pt/what-is-aws/?nc1=f_cc
+
+Amazon Web Services, ou simplesmente AWS, é a plataforma de nuvem da Amazon que disponibiliza mais de 200 serviços de \textit{datacenters} ao redor do globo. A plataforma oferece infraestrutura em nuvem como computação, armazenamento de arquivos ou em banco de dados, criptografia, ferramentas de \textit{machine learning}, \textit{data lakes} e \textit{internet} das coisas, além de suporte ao Docker e às linguagens de programação: .NET, Python, Java, JavaScript e PHP. A AWS dispõe de uma infraestrutura que satisfaz requisitos de segurança militares, compatível com 90 normas de segurança e certificações. Sua rede oferece alta redundância e taxa de transferência com baixa latência, estando presente em 81 zonas de disponibilidade que estão distribuídas em 25 regiões geográficas ao redor de globo \cite{aws:about}.
+
+\subsubsection{AWS Athena}
+\label{subsec:athena}
+% https://aws.amazon.com/pt/athena/
+
+O AWS Athena, ou somente Athena, é um serviço de consultas de dados \textit{serverless}, isto é, que segue um modelo de execução de computação em nuvem alocando recursos de processamento sob demanda e que elimina a necessidade do usuário de gerenciar a infraestrutura do servidor. O serviço é baseado no \textit{software} de código aberto chamado Presto, da The Presto Foundation, ele usa o padrão SQL (\textit{Structured Query Language} ou Linguagem de Consulta Estruturada) para acessar os dados dos arquivos que ficam armazenados no Amazon S3 (Seção \ref{subsec:s3}). É possível configurar o Athena para que ele trate um ou mais conjuntos de arquivos de forma análoga ao modelo relacional, estruturando-os em forma de tabelas e atribuindo tipos para as colunas, isso graças a sua integração com o AWS Glue Data Catalog. O AWS Athena tem suporte para arquivos organizados em linhas como CSV, Avro e JSON e os formatos colunares ORC e Parquet \cite{aws:athena}.
+
+\subsubsection{Amazon S3}
+\label{subsec:s3}
+% https://aws.amazon.com/pt/s3/
+
+Amazon Simple Storage Service (Amazon S3) é um serviço da AWS para armazenamento de arquivos de forma escalável. Os dados armazenados no S3 podem ser usados em diversos casos de uso como \textit{data lakes}, \textit{sites} e aplicações móveis. O serviço também oferece suporte à criptografia e ao gerenciamento de autorizações, permitindo que a organização administre o nível de acesso dos seus colaboradores. Ele fornece uma durabilidade para os arquivos de 99,99\%, pois realiza cópias automáticas de todos os documentos e os conserva em diversas regiões, aumentando sua disponibilidade e protegendo-os contra erros ou falhas \cite{aws:s3}.
+
+\subsection{Mongo}
+\label{subsec:mongo}
+
+\subsection{PostgreSQL}
+\label{subsec:postgres}

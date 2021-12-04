@@ -28,5 +28,20 @@ As partes do processo são compostas pelo autor, que desempenha o papel de polo 
 
 Por fim, as movimentações de um processo são um conjunto de informações que comunicam a evolução processual ao longo da tramitação. Elas podem conter os mais diferentes tipos de conhecimentos a respeito do processo, como os informes sobre o dia de uma audiência, notificação de emissão de intimação ou até mesmo a notícia da sentença do juiz.
 
-\subsection{Jurimetria}
+\subsection{ETL para Jurimetria}
 \label{jurimetria}
+
+A técnica de ETL usada neste trabalho segue o modelo de filas FIFO (\textit{First In, First Out} - primeiro a entrar, primeiro a sair) (Figura ). Cada nó dessa fila é uma estrutura que recebe o nome de \textit{step}.
+
+% TODO inserir imagem da organização dos steps
+
+O \textit{step} é um conjunto de operações que serão aplicada ao processo para realizar um objetivo bem definido. No projeto, ele é codificado como uma classe Python (Seção \ref{subsec:python}) com um método obrigatório chamado \textit{transform}. O \textit{transform} é a função que receberá o processo e aplicará as transformações necessárias para atingir o seu objetivo.
+
+% TODO inserir imagem do processo passando por um step
+
+Os processos são extraídos dos vários sistemas jurídicos pela equipe de extração e armazenados como documentos em um banco de dados MongoDB (Seção \ref{subsec:mongo}). Esses documentos que serão usados no processamento do ETL que preparará os dados para serem inseridos no \textit{data warehouse}. No ETL, os documentos são lidos do MongoDB e estruturados como um dicionário do Python (Figura ).
+
+% TODO inserir imagem do processo como um dicionário python
+
+\subsubsection{Steps}
+\label{steps}

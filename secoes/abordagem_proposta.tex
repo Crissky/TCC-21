@@ -1,4 +1,5 @@
 \section{Abordagem proposta}
+\label{abordagem}
 % Nessa seção devem ser apresentados os métodos utilizados no trabalho, ferramentas, dados e materiais.
 
 Empresas que atuam em uma grande área do território nacional atendendo a um grande número de clientes podem ser ré de diversas ações judiciais iniciadas pelos consumidores que se sentiram lesados com os serviços prestados. Desse modo, essas numerosas ações judiciais podem ocorrer em diferentes locais ou comarcas, \enquote{\textit{território em que o juiz de primeiro grau irá exercer sua jurisdição e pode abranger um ou mais municípios}} \cite{cnj:comarca}, o que dificulta o acompanhamento dos processos forenses. Assim sendo, manter uma equipe jurídica do tamanho necessário para cuidar dessa volumosa soma de processos, manualmente, pode ser muito custoso para a empresa, sendo capaz de prejudicar a bem-estar financeiro e jurídico dela.
@@ -7,14 +8,15 @@ Diante desse cenário, surgiram empresas que ofertam \enquote{inteligência jur�
 
 Mas no Brasil existem diversas plataformas digitais de justiça, em que cada uma disponibiliza os dados a sua maneira. Essa diferenciação na representação de um mesmo tipo de informação é uma problema quando se deseja usar técnicas de \textit{business intelligence} por meio de um \textit{data warehouse} (Seção \ref{subsec:datawarehouse}), pois sem um tratamento prévio, o agrupamento dos dados nessa situação não apresenta resultados satisfatórios. Então é necessário utilizar alguma estratégia para padronizar esses dados, sendo o ETL (Seção \ref{subsec:etl}) uma das técnicas mais utilizadas para tal.
 
+
 \subsection{Processos}
 \label{processos}
 
-As elementos contidos no processo são imprescindíveis para a construção do \textit{data warehouse} focado na obtenção de conhecimento jurídico e na aplicação da jurimetria, isto é, a \enquote{\textit{é a estatística aplicada ao Direito}} \cite{newlawJurimetria}.
+Os elementos contidos no processo são imprescindíveis para a construção do \textit{data warehouse} focado na obtenção de conhecimento jurídico e na aplicação da jurimetria, isto é, a \enquote{\textit{é a estatística aplicada ao Direito}} \cite{newlawJurimetria}.
 
-Os principais dados de um processo judicial são a sua Numeração Processual Única (NPU) ou somente número, as partes envolvidas e os andamentos ou movimentações.
+Os principais dados de um processo judicial são a sua Numeração Processual Única (NPU) ou somente número, as partes envolvidas, os andamentos ou movimentações e a fonte.
 
-A NPU é composta por vinte dígitos e foi instituído pelo Conselho Nacional de Justiça (CNJ) com o intuito de facilitar a consulta das informação referente a um processo, pois os números dos processos mudavam em cada instância ou recurso. A Numeração Processual Única vale para os tribunais de todo o país e apresentam a seguinte estrutura \enquote{NNNNNNN-DD.AAAA.J.TR.OOOO} no qual \cite{jusbrasilNPU}:
+A NPU é composta por vinte dígitos e foi instituído pelo Conselho Nacional de Justiça (CNJ) com o intuito de facilitar a consulta das informação referente a um processo, pois os números dos processos mudavam frequentemente em cada instância ou recurso. A Numeração Processual Única vale para os tribunais de todo o país e apresentam a seguinte estrutura \enquote{NNNNNNN-DD.AAAA.J.TR.OOOO} no qual \cite{jusbrasilNPU}:
 
 \begin{itemize}
     \item \textbf{NNNNNNN-DD}: representam o número sequencial do processo e seu dígito verificador \cite{TRF4NPU}.
@@ -26,7 +28,17 @@ A NPU é composta por vinte dígitos e foi instituído pelo Conselho Nacional de
 
 As partes do processo são compostas pelo autor, que desempenha o papel de polo ativo do processo, ou seja, aquele que recorre a tutela jurídica do estado, tomando a posição ativa, e pelo réu, que realiza o papel do polo passivo, estando sujeito a ação processual iniciada pelo autor.
 
-Por fim, as movimentações de um processo são um conjunto de informações que comunicam a evolução processual ao longo da tramitação. Elas podem conter os mais diferentes tipos de conhecimentos a respeito do processo, como os informes sobre o dia de uma audiência, notificação de emissão de intimação ou até mesmo a notícia da sentença do juiz.
+As movimentações de um processo são um conjunto de informações que comunicam a evolução processual ao longo da tramitação judicial. Elas podem conter os mais diferentes tipos de conhecimentos a respeito do processo, como os informes sobre o dia de uma audiência, notificação de emissão de intimação ou até mesmo a notícia da sentença do juiz. Nesse sentido, é usando as informações dos andamentos que o ETL fará a maior parte do seu processamento. As movimentações podem ser compostas pelos seguintes campos: 
+
+\begin{itemize}
+    \item \textbf{Título}: informa o assunto que o andamento trata.
+    \item \textbf{Texto}: corpo do texto (opcional).
+    \item \textbf{complemento}: informações complementares (opcional)
+    \item \textbf{Data}: dia e hora que o andamento foi disponibilizado no sistema de justiça.
+\end{itemize}
+
+Por fim, a fonte informa de maneira explícita em qual sistema o processo foi extraído. Essa informação é útil para definir quais rotinas serão aplicadas na etapa de transformação (Seção \ref{subsec:transformacao}) do ETL.
+
 
 \subsection{ETL para Jurimetria}
 \label{jurimetria}
@@ -35,28 +47,48 @@ A técnica de ETL usada neste trabalho segue o modelo de filas FIFO (\textit{Fir
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\textwidth]{imagens/steps-flow.png}
+\includegraphics[width=.8\textwidth]{imagens/steps-flow.png}
 \caption{Exemplo do fluxo dos \textit{steps}.}
 \label{fig:stepsFlow}
 \end{figure}
 
-O \textit{step} é um conjunto de operações que serão aplicada ao processo para realizar um objetivo bem definido. No projeto, ele é codificado como uma classe Python (Seção \ref{subsec:python}) com um método obrigatório chamado \textit{transform}. O \textit{transform} é a função que receberá o processo e aplicará as transformações e inferências necessárias para atingir o seu objetivo.
+O \textit{step} é um conjunto de operações que serão aplicada ao processo para realizar um objetivo bem definido. No projeto, ele é codificado como uma classe Python (Seção \ref{subsec:python}) com um método obrigatório chamado \textit{transform}. O \textit{transform} é a função que receberá o processo e aplicará as inferências e transformações necessárias para alcançar o seu objetivo.
+
+Os processos são extraídos dos vários sistemas jurídicos pela equipe de extração e armazenados como documentos em um banco de dados MongoDB (Seção \ref{subsec:mongo}). Esses documentos serão usados no processamento do ETL, podendo ser combinados com informações complementares fornecidas pela empresa, que preparará os dados e também criará novos para serem inseridos no \textit{data warehouse}. No ETL, os documentos são lidos do MongoDB e estruturados como um dicionário do Python (Figura \ref{fig:processoPython}).
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=1\textwidth]{imagens/processo-in-step.png}
-\caption{Exemplo de \textit{step} enriquecendo o documento com novas informações.}
-\label{fig:processoInStep}
+\includegraphics[width=1\textwidth]{imagens/processo-python.png}
+\caption{Exemplo de processo como um dicionário do Python.}
+\label{fig:processoPython}
 \end{figure}
 
-Os processos são extraídos dos vários sistemas jurídicos pela equipe de extração e armazenados como documentos em um banco de dados MongoDB (Seção \ref{subsec:mongo}). Esses documentos serão usados no processamento do ETL que preparará os dados para serem inseridos no \textit{data warehouse}. No ETL, os documentos são lidos do MongoDB e estruturados como um dicionário do Python (Figura ).
-
-% TODO inserir imagem do processo como um dicionário python
 
 \subsubsection{Steps}
 \label{steps}
 
-Para esse trabalho, não serão abordados todos os \textit{steps} que são efetivamente realizados na empresa, mas somente um recorte de alguns dos mais importantes. Com exceção do primeiro \textit{step}, que trata da normalização dos dados, cada um dos demais \textit{steps} são responsáveis pela criação de uma nova tabela no banco de dados final.
+Para esse trabalho, não serão abordados todos os \textit{steps} que são efetivamente realizados pela empresa, mas somente um recorte de alguns deles. Com exceção do primeiro \textit{step}, que trata da normalização dos dados, cada um dos demais \textit{steps} são responsáveis por adicionar mais um campo na raiz do dicionário que representa o processo (Figura \ref{fig:processoInStep}). Normalmente esse campo tem o nome do próprio \textit{step} que o gerou e seu valor é uma lista de dicionários. Esses novos campos darão origens as tabelas no banco de dados final, em que o nome da tabela será o nome do próprio campo, as suas colunas serão as chaves dos dicionários que estão na lista e os valores que popularão a tabela serão os valores dos dicionários em que a chave corresponda ao nome da coluna (Figura \ref{fig:processoParaTabela}).
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=.8\textwidth]{imagens/processo-in-step.png}
+\caption{Exemplo de \textit{step} enriquecendo o documento com novas informações.}
+\label{fig:processoInStep}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1\textwidth]{imagens/processo-para-tabela.png}
+\caption{Conversão de novo campo inserido por um \textit{step} em tabela.}
+\label{fig:processoParaTabela}
+\end{figure}
+
+O primeiro \textit{step}, chamado de \enquote{\textit{ProcessoClean}}, é o responsável pela normalização dos dados de um processo por meio de diversas conversões e substituições. Esse passo é necessário, pois as diversas informações que estão no processo são representadas como o tipo de dado \textit{string}, o que tornaria algumas das comparações difíceis e menos diretas, e por serem capturadas de diversos sistemas, um mesmo tipo de informação pode não seguir um mesmo padrão. Além disso, alguns campos de textos podem estar mal formatado e conter caracteres especiais que aumentam a complexidade das buscas necessárias para o enriquecimento dos dados. Os principais caso que esse \textit{step} trata são os seguintes:
 
 % TODO Escreve sobre os steps.
-O primeiro \textit{step} é chamado de...
+\begin{itemize}
+    \item \textbf{Tipos numéricos}: 
+    \item \textbf{Tipos boleanos}:
+    \item \textbf{Datas}:
+    \item \textbf{Textos}: 
+\end{itemize}

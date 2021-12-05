@@ -2,7 +2,7 @@
 \label{abordagem}
 % Nessa seção devem ser apresentados os métodos utilizados no trabalho, ferramentas, dados e materiais.
 
-Empresas que atuam em uma grande área do território nacional atendendo a um grande número de clientes podem ser ré de diversas ações judiciais iniciadas pelos consumidores que se sentiram lesados com os serviços prestados. Desse modo, essas numerosas ações judiciais podem ocorrer em diferentes locais ou comarcas, \enquote{\textit{território em que o juiz de primeiro grau irá exercer sua jurisdição e pode abranger um ou mais municípios}} \cite{cnj:comarca}, o que dificulta o acompanhamento dos processos forenses. Assim sendo, manter uma equipe jurídica do tamanho necessário para cuidar dessa volumosa soma de processos, manualmente, pode ser muito custoso para a empresa, sendo capaz de prejudicar a bem-estar financeiro e jurídico dela.
+Empresas que atuam em uma grande área do território nacional atendendo a um grande número de clientes podem ser ré de diversas ações judiciais iniciadas pelos consumidores que se sentiram lesados com os serviços prestados. Desse modo, essas numerosas ações judiciais podem ocorrer em diferentes locais ou comarcas, \enquote{\textit{território em que o juiz de primeiro grau irá exercer sua jurisdição e pode abranger um ou mais municípios}} \cite{cnj:comarca}, o que dificulta o acompanhamento dos processos forenses. Assim sendo, manter uma equipe jurídica do tamanho necessário para cuidar dessa volumosa soma de processos, manualmente, pode ser muito custoso para a empresa, sendo capaz de prejudicar o bem-estar financeiro e jurídico dela.
 
 Diante desse cenário, surgiram empresas que ofertam \enquote{inteligência jurídica}, acompanhando os inúmeros processos jurídicos por meio da sua coleta, armazenando-os em um banco de dados. Esses dados processuais são disponibilizados pelos sistemas de justiça providenciados por meio das suas plataformas digitais como o Projudi do TJPE \cite{tjpe} e o e-SAJ CE \cite{esajce}. Essa coleta otimiza o trabalho das equipes jurídicas das empresas, no entanto, esses dados podem ser usados para fornecer muito mais informações para o setor jurídico da empresa e até contribuir para o seu \textit{business intelligence} (BI), revelando novas perspectivas que servirão de base para a tomada de decisão.
 
@@ -12,7 +12,7 @@ Mas no Brasil existem diversas plataformas digitais de justiça, em que cada uma
 \subsection{Processos}
 \label{processos}
 
-Os elementos contidos no processo são imprescindíveis para a construção do \textit{data warehouse} focado na obtenção de conhecimento jurídico e na aplicação da jurimetria, isto é, a \enquote{\textit{é a estatística aplicada ao Direito}} \cite{newlawJurimetria}.
+Os elementos contidos no processo são imprescindíveis para a construção do \textit{data warehouse} focado na obtenção de conhecimento jurídico e na aplicação da jurimetria, isto é, \enquote{\textit{a estatística aplicada ao Direito}} \cite{newlawJurimetria}.
 
 Os principais dados de um processo judicial são a sua Numeração Processual Única (NPU) ou somente número, as partes envolvidas, os andamentos ou movimentações e a fonte.
 
@@ -26,7 +26,7 @@ A NPU é composta por vinte dígitos e foi instituído pelo Conselho Nacional de
     \item \textbf{OOOO}: remete à unidade de origem do processo \cite{TRF4NPU}.
 \end{itemize}
 
-As partes do processo são compostas pelo autor, que desempenha o papel de polo ativo do processo, ou seja, aquele que recorre a tutela jurídica do estado, tomando a posição ativa, e pelo réu, que realiza o papel do polo passivo, estando sujeito a ação processual iniciada pelo autor.
+As partes do processo são compostas pelo autor, que desempenha o papel de polo ativo do processo, ou seja, aquele que recorre à tutela jurídica do estado, tomando a posição ativa, e pelo réu, que realiza o papel do polo passivo, estando sujeito à ação processual iniciada pelo autor.
 
 As movimentações de um processo são um conjunto de informações que comunicam a evolução processual ao longo da tramitação judicial. Elas podem conter os mais diferentes tipos de conhecimentos a respeito do processo, como os informes sobre o dia de uma audiência, notificação de emissão de intimação ou até mesmo a notícia da sentença do juiz. Nesse sentido, é usando as informações dos andamentos que o ETL fará a maior parte do seu processamento. As movimentações podem ser compostas pelos seguintes campos: 
 
@@ -67,7 +67,7 @@ Os processos são extraídos dos vários sistemas jurídicos pela equipe de extr
 \subsubsection{Steps}
 \label{steps}
 
-Para esse trabalho, não serão abordados todos os \textit{steps} que são efetivamente realizados pela empresa, mas somente um recorte de alguns deles. Com exceção do primeiro \textit{step}, que trata da normalização dos dados, cada um dos demais \textit{steps} são responsáveis por adicionar mais um campo na raiz do dicionário que representa o processo (Figura \ref{fig:processoInStep}). Normalmente esse campo tem o nome do próprio \textit{step} que o gerou e seu valor é uma lista de dicionários. Esses novos campos darão origens as tabelas no banco de dados final, em que o nome da tabela será o nome do próprio campo, as suas colunas serão as chaves dos dicionários que estão na lista e os valores que popularão a tabela serão os valores dos dicionários em que a chave corresponda ao nome da coluna (Figura \ref{fig:processoParaTabela}).
+Para esse trabalho, não serão abordados todos os \textit{steps} que são efetivamente realizados pela empresa, mas somente um recorte de alguns deles. Com exceção do primeiro \textit{step}, que trata da normalização dos dados, cada um dos demais \textit{steps} são responsáveis por adicionar mais um campo na raiz do dicionário que representa o processo (Figura \ref{fig:processoInStep}). Normalmente esse campo tem o nome do próprio \textit{step} que o gerou e seu valor é uma lista de dicionários. Esses novos campos darão origens às tabelas no banco de dados final, em que o nome da tabela será o nome do próprio campo, as suas colunas serão as chaves dos dicionários que estão na lista e os valores que popularão a tabela serão os valores dos dicionários em que a chave corresponda ao nome da coluna (Figura \ref{fig:processoParaTabela}).
 
 \begin{figure}[ht]
 \centering

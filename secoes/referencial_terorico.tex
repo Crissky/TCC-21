@@ -132,6 +132,11 @@ Já o carregamento incremental introduz os dados no \textit{data warehouse} freq
 
 O ETL de um \textit{data warehouse} pode ser organizado em forma de \textit{pipeline}, no qual as etapas são conectadas em série de modo que a saída de um passo sirva como entrada do passo posterior. Dessa forma, os estágios do ETL podem ser executados em paralelo, permitindo que vários registros sejam processados simultaneamente, eliminando a necessidade de esperar que um registro passe por todo o ETL para então iniciar o processamento próximo registro \cite{vida2021datawarehouse}.
 
-% \TODO Inserir imagem da página 167 do livro.  "Pipeline das funções ETL"
+\begin{figure}[ht]
+\centering
+\includegraphics[width=1\textwidth]{imagens/pipeline-funcoes-ETL.png}
+\caption{Paralelização dos \textit{pipelines} de um ETL}
+\label{fig:pipelineETL}
+\end{figure}
 
 Assim, o ETL é projetado para fornecer valor ao negócio da empresa por meio da união dos dados, do enriquecimento, da estruturação, da padronização e da eliminação de redundância que eles podem conter. Ele também eleva a qualidade dos dados e permite que os \textit{stakeholders} possam acessar e manipular as informações oriundas de diversas fontes com facilidade e clareza. Outro ponto positivo é que o ETL aumenta o campo de visão da análise, devido à integralidade dos dados proveniente do máximo de fontes relevantes reunidas em um único local, no caso, o \textit{data warehouse}. À vista disso, podemos dizer que o processo de ELT amplia os horizontes da empresa tanto pela qualidade e completude das informações que são entregues, permitindo que as decisões tomadas sejam apoiadas em dados reais, quanto pelo tempo que ele dá aos \textit{stakeholders} por retirar deles o trabalho de reunir essa grande quantidade de dados.

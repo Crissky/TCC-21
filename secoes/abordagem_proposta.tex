@@ -1,5 +1,5 @@
 \section{Abordagem proposta}
-\label{abordagem}
+\label{sec:abordagem}
 % Nessa seção devem ser apresentados os métodos utilizados no trabalho, ferramentas, dados e materiais.
 
 Empresas que atuam em uma grande área do território nacional atendendo a um grande número de clientes podem ser ré de diversas ações judiciais iniciadas pelos consumidores que se sentiram lesados com os serviços prestados. Desse modo, essas numerosas ações judiciais podem ocorrer em diferentes locais ou comarcas, \enquote{\textit{território em que o juiz de primeiro grau irá exercer sua jurisdição e pode abranger um ou mais municípios}} \cite{cnj:comarca}, o que dificulta o acompanhamento dos processos forenses. Assim sendo, manter uma equipe jurídica do tamanho necessário para cuidar dessa volumosa soma de processos, manualmente, pode ser muito custoso para a empresa, sendo capaz de prejudicar o bem-estar financeiro e jurídico dela.
@@ -10,7 +10,7 @@ Mas no Brasil existem diversas plataformas digitais de justiça, em que cada uma
 
 
 \subsection{Processos}
-\label{processos}
+\label{subsec:processos}
 
 Os elementos contidos no processo são imprescindíveis para a construção do \textit{data warehouse} focado na obtenção de conhecimento jurídico e na aplicação da jurimetria, isto é, \enquote{\textit{a estatística aplicada ao Direito}} \cite{newlawJurimetria}.
 
@@ -41,7 +41,7 @@ Por fim, a fonte informa de maneira explícita em qual sistema o processo foi ex
 
 
 \subsection{ETL para Jurimetria}
-\label{jurimetria}
+\label{subsec:jurimetria}
 
 A técnica de ETL usada neste trabalho segue o modelo de \textit{pipeline}, no qual cada uma das etapas do fluxo de trabalho possuem uma tarefa muito bem estabelecida e são conectadas em série (Figura \ref{fig:stepsFlow}). Cada nó dessa fila é uma estrutura que recebe o nome de \textit{step}.
 
@@ -65,7 +65,7 @@ Os processos são extraídos dos vários sistemas jurídicos pela equipe de extr
 
 
 \subsubsection{Steps}
-\label{steps}
+\label{subsec:steps}
 
 Para esse trabalho, não serão abordados todos os \textit{steps} que são efetivamente realizados pela empresa, mas somente um recorte de alguns deles. Com exceção do primeiro \textit{step}, que trata da normalização dos dados, cada um dos demais \textit{steps} são responsáveis por adicionar mais um campo na raiz do dicionário que representa o processo (Figura \ref{fig:processoInStep}). Normalmente esse campo tem o nome do próprio \textit{step} que o gerou e seu valor é uma lista de dicionários. Esses novos campos darão origens às tabelas no banco de dados final, em que o nome da tabela será o nome do próprio campo, as suas colunas serão as chaves dos dicionários que estão na lista e os valores que popularão a tabela serão os valores dos dicionários em que a chave corresponda ao nome da coluna (Figura \ref{fig:processoParaTabela}).
 

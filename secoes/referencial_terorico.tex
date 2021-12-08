@@ -14,7 +14,7 @@ O grupo básico de operações de um Sistema de Informação é constituído pel
 \label{fig:operacoesBasicaSistemas}
 \end{figure}
 
-Os dados que servem como entrada do sistema \enquote{\textit{são a menor parte de uma informação}}, \cite{boscarioli2016mineracao}, e podem ser definidos como conhecimento bruto ou fatos isolados. Nesse estado, podemos tê-los como não adequadamente tratados para fornecer gnose aos \textit{stakeholders}.
+Os dados que servem como entrada do sistema \enquote{\textit{são a menor parte de uma informação}}, \cite{boscarioli2016mineracao}, e podem ser definidos como conhecimento bruto ou fatos isolados. Nesse estado, podemos tê-los como não adequadamente tratados para fornecer \textit{gnose} aos \textit{stakeholders}.
 
 Por sua vez, a informação é a saída do sistema e descreve \enquote{\textit{qualquer conhecimento do mundo real... mas que apresenta algum significado ou valor para quem o detém}} \cite{boscarioli2016mineracao}. A informação é formada pelos dados de entrada do sistema após serem transformados, combinados \enquote{\textit{relacionados logicamente e organizados para atingir um resultado definido}}, \cite{vida2021datawarehouse}, passando a fornecer conhecimento relevante para o processo de tomada de decisão.
 
@@ -130,7 +130,7 @@ O carregamento total é quando \enquote{\textit{tudo o que vem da linha de monta
 
 Já o carregamento incremental introduz os dados no \textit{data warehouse} frequentemente, em cargas programadas. No entanto, é feito um carregamento inicial com todos os dados, para, somente após isso, os dados serem inseridos regularmente. Nesse método, os dados só serão incluídos caso não existam registros idênticos no sistema objetivo, escrevendo somente as informações novas e ignorando linhas de lançamentos antigos. Esse tipo de abordagem permite a construção de \textit{data warehouses} menos custosos por baratear a sua manutenção, além de permitir que novos dados sejam incluídos rapidamente no \textit{data warehouse}, viabilizando uma tomada de decisão mais veloz. Contudo, é comum que sejam feitas cargas completas no \textit{data warehouse} para substituir todos os dados contidos nele, mas isso ocorre em uma frequência menor.
 
-O ETL de um \textit{data warehouse} pode ser organizado em forma de \textit{pipeline}, no qual as etapas são conectadas em série de modo que a saída de um passo sirva como entrada do passo posterior. Dessa forma, os estágios do ETL podem ser executados em paralelo, permitindo que vários registros sejam processados simultaneamente, eliminando a necessidade de esperar que um registro passe por todo o ETL para então iniciar o processamento próximo registro \cite{vida2021datawarehouse}.
+O ETL de um \textit{data warehouse} pode ser organizado em forma de \textit{pipeline}, no qual as etapas são conectadas em série de modo que a saída de um passo sirva como entrada do passo posterior. Dessa forma, os estágios do ETL podem ser executados em paralelo, permitindo que vários registros sejam processados simultaneamente, eliminando a necessidade de esperar que um registro passe por todo o ETL para então iniciar o processamento do próximo registro \cite{vida2021datawarehouse}.
 
 \begin{figure}[ht]
 \centering

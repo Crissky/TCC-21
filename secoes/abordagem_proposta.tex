@@ -11,9 +11,10 @@ Mas no Brasil existem diversas plataformas digitais de justiça, em que cada uma
 % ADICIONADO PARA A VERSÃO FINAL
 De forma geral, o projeto está organizado da seguinte maneira: Os dados dos processos que foram capturados dos sites dos tribunais são armazenados em um banco de dados MongoDB (seção \ref{subsec:mongo}). Esses dados processuais serão copiados do MongoDB para serem computados por um \textit{pipeline} de algoritmos em Python (Seção \ref{subsec:python}) chamado \enquote{Step Pipeline}. Dados fornecidos pelas empresas em formato CSV também podem ser usados no processamento do \textit{pipeline}. Essa etapa de cópia dos dados do banco e dos arquivos CSV para o Step Pipeline equivalem a “Extração” do ETL (Seção \ref{subsec:etl}). Após serem computados, os dados dos processos serão armazenados no Amazon Simple Storage Service (Seção \ref{subsec:s3}) para, em seguida, serem convertidos em tabelas pelo AWS Athena (Seção \ref{subsec:athena}). Todo esse fluxo iniciado no Step Pipeline e finalizado no AWS Athena configura a fase de \enquote{Transformação} do ETL. Em conclusão, após serem transformados, os dados em formato de tabela serão copiados do Athena para o PostgreSQL (Seção \ref{subsec:postgres}). Nesse ponto, os dados estão prontos para serem carregados em qualquer sistema de análise de negócios, o sistema utilizado pela empresa é o Power BI da Microsoft. Desse modo, esse estágio final, do PostgreSQL ao Power BI, corresponde à \enquote{Carga} do ETL. Todo esse fluxo pode ser visto na Figura \ref{fig:arquiteturaGeral}.
 
+% ADICIONADO PARA A VERSÃO FINAL
 \begin{figure}[ht]
 \centering
-\includegraphics[width=.7\textwidth]{imagens/arquitetura_geral.png}
+\includegraphics[width=.6\textwidth]{imagens/arquitetura_geral.png}
 \caption{Visão geral da arquitetura do projeto.}
 \label{fig:arquiteturaGeral}
 \end{figure}

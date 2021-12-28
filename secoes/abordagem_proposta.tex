@@ -9,7 +9,7 @@ Diante desse cenário, surgiram empresas que ofertam \enquote{inteligência jur�
 Mas no Brasil existem diversas plataformas digitais de justiça, em que cada uma disponibiliza os dados à sua maneira. Essa diferenciação na representação de um mesmo tipo de informação é uma problema quando se deseja usar técnicas de \textit{business intelligence} por meio de um \textit{data warehouse} (Seção \ref{subsec:datawarehouse}), pois sem um tratamento prévio, o agrupamento dos dados nessa situação não apresentará resultados satisfatórios. Então é necessário utilizar alguma estratégia para padronizar esses dados, sendo o ETL (Seção \ref{subsec:etl}) uma das técnicas mais utilizadas para tal.
 
 % ADICIONADO PARA A VERSÃO FINAL
-De forma geral, o projeto está organizado da seguinte maneira: Os dados dos processos que foram capturados dos sites dos tribunais são armazenados em um banco de dados MongoDB (seção \ref{subsec:mongo}). Esses dados processuais serão copiados do MongoDB para serem computados por um \textit{pipeline} de algoritmos em Python (Seção \ref{subsec:python}) chamado \enquote{Step Pipeline}. Dados fornecidos pelas empresas em formato CSV também podem ser usados no processamento do \textit{pipeline}. Essa etapa de cópia dos dados do banco e dos arquivos CSV para o Step Pipeline equivalem a \enquote{Extração} do ETL (Seção \ref{subsec:etl}). Após serem computados, os dados dos processos serão armazenados no Amazon Simple Storage Service (Seção \ref{subsec:s3}) para, em seguida, serem convertidos em tabelas pelo AWS Athena (Seção \ref{subsec:athena}). Todo esse fluxo iniciado no Step Pipeline e finalizado no AWS Athena configura a fase de \enquote{Transformação} do ETL. Em conclusão, após serem transformados, os dados em formato de tabela serão copiados do Athena para o PostgreSQL (Seção \ref{subsec:postgres}). Nesse ponto, os dados estão prontos para serem carregados em qualquer sistema de análise de negócios, o sistema utilizado pela empresa é o Power BI da Microsoft. Desse modo, esse estágio final, do PostgreSQL ao Power BI, corresponde à \enquote{Carga} do ETL. Todo esse fluxo pode ser visto na Figura \ref{fig:arquiteturaGeral}.
+De forma geral, o projeto está organizado da seguinte maneira: Os dados dos processos que foram capturados dos sites dos tribunais são armazenados em um banco de dados MongoDB (seção \ref{subsec:mongo}). Esses dados processuais serão copiados do MongoDB para serem computados por um \textit{pipeline} de algoritmos em Python (Seção \ref{subsec:python}) chamado \enquote{Step Pipeline}. Os dados fornecidos pelas empresas em formato CSV também podem ser usados no processamento do \textit{pipeline}. Essa etapa de cópia dos dados do banco e dos arquivos CSV para o Step Pipeline equivalem a \enquote{Extração} do ETL (Seção \ref{subsec:extracao}). Após serem computados, os dados dos processos serão armazenados no Amazon Simple Storage Service (Seção \ref{subsec:s3}) para, em seguida, serem convertidos em tabelas pelo AWS Athena (Seção \ref{subsec:athena}). Todo esse fluxo iniciado no Step Pipeline e finalizado no AWS Athena configura a fase de \enquote{Transformação} do ETL (Seção \ref{subsec:transformacao}). Em conclusão, após serem transformados, os dados em formato de tabela serão copiados do Athena para o PostgreSQL (Seção \ref{subsec:postgres}). Nesse ponto, os dados estão prontos para serem carregados em qualquer sistema de análise de negócios, o sistema utilizado pela empresa é o Power BI da Microsoft. Desse modo, esse estágio final, do PostgreSQL ao Power BI, corresponde à \enquote{Carga} do ETL (Seção \ref{subsec:carga}). Todo esse fluxo pode ser visto na Figura \ref{fig:arquiteturaGeral}.
 
 % ADICIONADO PARA A VERSÃO FINAL
 \begin{figure}[ht]
@@ -112,6 +112,7 @@ Os demais \textit{steps} não fazem alterações nos dados presentes no processo
 O \enquote{Audiencia Step} ou \textit{step} de audiência é responsável por buscar nos andamentos as designações de audiências, suas classificações ou tipos, o horário e o local em que irão ocorrer. As informações de uma audiência são descritas nos campos \enquote{titulo} e \enquote{texto} de um andamento, mas elas apresentam padrões distintos de sistema para sistema. Por exemplo, uma audiência de conciliação para o dia 03/11/2021 às 16:30 pode ser representada das seguintes formas:
 
 
+% ADICIONADO PARA A VERSÃO FINAL
 \begin{itemize}
     \item \textbf{Sistema TJPE}:
         \subitem \enquote{título}: \enquote{audiencia de conciliacao}
@@ -121,8 +122,10 @@ O \enquote{Audiencia Step} ou \textit{step} de audiência é responsável por bu
         \subitem \enquote{texto}: \enquote{audiencia de conciliacao designada (03/11/2021 16:30 na 13a vara civel)}
 \end{itemize}
 
+% ADICIONADO PARA A VERSÃO FINAL
 Dessa maneira, o algoritmo do \textit{step} de audiência (Figura \ref{fig:audienciaStep}) inicia com um fluxo condicional que seleciona o padrão descrito como \textit{regex} que extrai as informações das audiências que estão nos andamentos. Essa escolha é feita com base no atributo \enquote{fonte} do processo.
 
+% ADICIONADO PARA A VERSÃO FINAL
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.8\textwidth]{imagens/audiencia_step.png}
@@ -130,8 +133,10 @@ Dessa maneira, o algoritmo do \textit{step} de audiência (Figura \ref{fig:audie
 \label{fig:audienciaStep}
 \end{figure}
 
+% ADICIONADO PARA A VERSÃO FINAL
 Após isso, uma estrutura de repetição percorrerá todos os andamentos do processo, um a um, da seguinte maneira: os campos \enquote{título} e \enquote{texto} do andamento serão concatenados com um espaço simples entre eles para formar uma única \textit{string} chamada \enquote{texto\_completo}. Para a audiência do TJPE, descrita anteriormente, o \enquote{texto\_completo} seria \enquote{audiencia de conciliacao designada para 03/11/2021 16:30 - 13a vara civel}. Em seguida, o padrão \textit{regex} é aplicado no \enquote{texto\_completo} para buscar três grupos de dados: o tipo da audiência, o horário da audiência e o local da audiência. O padrão \textit{regex} para o TJPE é expresso como \enquote{\textbf{(audiencia.*) designada para (\textbackslash d\{2\}/\textbackslash d\{2\}/\textbackslash d\{4\} \textbackslash d\{2\}:\textbackslash d\{2\}) - (.*)}}, em que cada valor entre parênteses representa um grupo. Caso o padrão \textit{regex} encontre os três grupos no \enquote{texto\_completo}, um dicionário será criado com as chaves \enquote{tipo}, \enquote{horário} e \enquote{local} e seus valores serão os respectivos grupos encontrados pelo padrão \textit{regex} (Figura \ref{fig:dictAudiencia}). Esse dicionário será armazenado em uma lista criada antes da estrutura de repetição ser iniciada. No entanto, se o padrão \textit{regex} não encontrar os grupos, a estrutura de repetição passa para o próximo andamento.
 
+% ADICIONADO PARA A VERSÃO FINAL
 \begin{figure}[ht]
 \centering
 \includegraphics[width=.8\textwidth]{imagens/audiencia.png}
@@ -139,7 +144,8 @@ Após isso, uma estrutura de repetição percorrerá todos os andamentos do proc
 \label{fig:dictAudiencia}
 \end{figure}
 
-Depois que a estrutura de repetição é concluída, um novo campo é criado no processo com um nome relacionado ao nome do \textit{step}. Nesse caso o nome do novo campo será \enquote{audiencias} e o seu valor vai ser a lista com os dicionários criados na estrutura de repetição. Com isso, o \textit{step} de audiências é concluído e o próximo \textit{step} é iniciado.
+% ADICIONADO PARA A VERSÃO FINAL
+Depois que a estrutura de repetição for concluída, um novo campo será criado no processo com um nome relacionado ao nome do \textit{step}. Nesse caso, o nome do novo campo será \enquote{audiencias} e o seu valor vai ser a lista com os dicionários criados na estrutura de repetição. Com isso, o \textit{step} de audiências é concluído e o próximo \textit{step} será iniciado.
 
 
 Finalmente, após todos os processos passarem pelos \textit{steps}, os dados serão armazenados em formato JSON no Amazon S3 (Seção \ref{subsec:s3}). Em seguida, o Athena (Seção \ref{subsec:athena}) é utilizado para estruturar esses dados que estão em JSON como tabelas de um modelo relacional a partir de arquivos no formato CSV (\textit{Comma Separated Values}) que o próprio Athena criará. Depois disso, esses arquivos CSV são utilizados para exportar as informações para o banco de dados PostgreSQL (Seção \ref{subsec:postgres}), sendo esse o formato final pré \textit{data warehouse}. Por mais contra-intuitivo que isso pareça, exportar o dados diretamente do Python para o PostgreSQL oferecia um desempenho bastante abaixo do que a abordagem supracitada, isso porque a maneira mais rápida de se carregar dados no PostgreSQL é utilizando CSV, exceto por usar dados em formato binário, o que diminuiu drasticamente o tempo de carga. Concluído o armazenamento no PostgreSQL, os dados estão prontos para serem carregados em qualquer sistema ou serviço de análise de negócios como o Power BI da Microsoft ou o Google Data Studio. Desse modo, essa etapa final, do PostgreSQL ao serviço de análise de negócios, corresponde à \enquote{Carga} do ETL.
